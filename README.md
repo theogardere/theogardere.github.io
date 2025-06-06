@@ -1,1 +1,0 @@
-# theogardere.github.io
