@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Théo GARDERE - Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #e8f0ff;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Fond moderne avec gradient animé */
+    .dynamic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(
+        45deg,
+        #0a0a0a 0%,
+        #0d0d0d 25%,
+        #101010 50%,
+        #0a0a0a 75%,
+        #0d0d0d 100%
+      );
+      background-size: 400% 400%;
+      animation: gradientFlow 20s ease infinite;
+    }
+    
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Overlay avec effet de vagues */
+    .wave-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.15;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(25, 118, 210, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(100, 181, 246, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(25, 118, 210, 0.03) 0%, transparent 50%);
+      animation: waveMove 15s ease-in-out infinite;
+    }
+    
+    @keyframes waveMove {
+      0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+      33% { transform: translateX(-20px) translateY(-10px) scale(1.02); }
+      66% { transform: translateX(20px) translateY(10px) scale(0.98); }
+    }
+    
+    /* Particules modernes améliorées */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: modernFloat infinite ease-in-out;
+      filter: blur(0.5px);
+    }
+    
+    .particle:nth-child(1) {
+      width: 8px;
+      height: 8px;
+      top: 15%;
+      left: 10%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(100,181,246,0.6) 50%, transparent 100%);
+      animation-duration: 18s;
+      animation-delay: 0s;
+    }
+    
+    .particle:nth-child(2) {
+      width: 6px;
+      height: 6px;
+      top: 45%;
+      left: 85%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(144,202,249,0.5) 50%, transparent 100%);
+      animation-duration: 22s;
+      animation-delay: 3s;
+    }
+    
+    .particle:nth-child(3) {
+      width: 10px;
+      height: 10px;
+      top: 70%;
+      left: 30%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(100,181,246,0.4) 50%, transparent 100%);
+      animation-duration: 25s;
+      animation-delay: 6s;
+    }
+    
+    .particle:nth-child(4) {
+      width: 7px;
+      height: 7px;
+      top: 25%;
+      left: 70%;
+      background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(187,222,251,0.5) 50%, transparent 100%);
+      animation-duration: 20s;
+      animation-delay: 9s;
+    }
+    
+    .particle:nth-child(5) {
+      width: 5px;
+      height: 5px;
+      top: 60%;
+      left: 15%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(100,181,246,0.6) 50%, transparent 100%);
+      animation-duration: 24s;
+      animation-delay: 12s;
+    }
+    
+    .particle:nth-child(6) {
+      width: 9px;
+      height: 9px;
+      top: 35%;
+      left: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(144,202,249,0.5) 50%, transparent 100%);
+      animation-duration: 19s;
+      animation-delay: 15s;
+    }
+    
+    @keyframes modernFloat {
+      0%, 100% { 
+        transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
+        opacity: 0.6;
+      }
+      20% { 
+        transform: translateY(-120px) translateX(80px) scale(1.3) rotate(72deg);
+        opacity: 0.9;
+      }
+      40% { 
+        transform: translateY(-100px) translateX(-60px) scale(0.8) rotate(144deg);
+        opacity: 1;
+      }
+      60% { 
+        transform: translateY(-140px) translateX(100px) scale(1.2) rotate(216deg);
+        opacity: 0.8;
+      }
+      80% { 
+        transform: translateY(-90px) translateX(-40px) scale(1.1) rotate(288deg);
+        opacity: 0.7;
+      }
+    }
+    
+    /* Effet de mouvement sur le scroll */
+    .scroll-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+          rgba(25, 118, 210, 0.05) 0%, 
+          transparent 50%);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    /* Menu hamburger */
+    .main-menu-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1001;
+      width: 50px;
+      height: 50px;
+      background: rgba(13,17,23,0.9);
+      border: 2px solid rgba(100,181,246,0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      animation: fadeInDown 1s ease-out 0.5s forwards;
+    }
+    
+    .main-hamburger {
+      width: 24px;
+      height: 2px;
+      background: #64b5f6;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    
+    .main-menu-toggle:hover {
+      border-color: #64b5f6;
+      background: rgba(25,118,210,0.15);
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+    }
+    
+    /* Menu principal */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(13,17,23,0.95);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      transition: right 0.4s ease;
+      border-left: 1px solid rgba(100,181,246,0.3);
+    }
+    
+    .main-nav.active {
+      right: 0;
+    }
+    
+    .nav-link {
+      color: #bbdefb;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      min-width: 160px;
+      text-align: center;
+    }
+    
+    .nav-link:hover {
+      color: #64b5f6;
+      border-color: rgba(100,181,246,0.3);
+      background: rgba(25,118,210,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .nav-link.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      border-color: #64b5f6;
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+    }
+    
+    /* Barre de progression */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #1976d2, #64b5f6);
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+      from { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Sections harmonisées */
+    section {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      position: relative;
+      scroll-margin-top: 2rem;
+    }
+    
+    #about {
+      min-height: 80vh;
+      padding-top: 0.5rem;
+      margin-top: -5vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .main-header {
+      position: absolute;
+      top: 4rem;
+      left: 2rem;
+      z-index: 100;
+      opacity: 0;
+      animation: fadeInDown 1.2s ease-out 0.3s forwards;
+    }
+    
+    .main-header h1 {
+      font-size: 2.2rem;
+      color: #f5f7fa;
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .photo {
+      margin: 1rem 0;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.8s forwards;
+    }
+    
+    .photo a {
+      display: inline-block;
+      transition: all 0.3s ease;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .photo a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(100,181,246,0.6);
+    }
+    
+    .photo img {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid #64b5f6;
+      box-shadow: 0 0 40px rgba(100,181,246,0.6);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .presentation {
+      max-width: 800px;
+      margin: 0.5rem auto;
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1.2s forwards;
+      color: #bbdefb;
+      text-align: center;
+      background: rgba(13,17,23,0.6);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 15px;
+      border: 1px solid rgba(100,181,246,0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .presentation h2 {
+      color: #90caf9;
+      font-size: 1.4rem;
+      margin: 0 0 1rem 0;
+      text-align: center;
+    }
+    
+    .presentation p {
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      margin: 0.5rem;
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:hover {
+      background: linear-gradient(135deg, #1e88e5, #1976d2);
+      box-shadow: 0 6px 25px rgba(25,118,210,0.5);
+      transform: translateY(-2px);
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 1.5s forwards;
+    }
+    
+    .bottom-images {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+      max-width: 500px;
+      padding: 0.5rem;
+      margin: 1rem auto 0;
+    }
+    
+    .image-placeholder {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .image-placeholder:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(25,118,210,0.5);
+    }
+    
+    .image-placeholder a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .image-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-menu-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+      }
+      
+      .main-nav {
+        width: 100%;
+      }
+      
+      .main-header {
+        top: 3rem;
+        left: 1rem;
+      }
+      
+      .main-header h1 {
+        font-size: 1.6rem;
+      }
+      
+      .photo img {
+        width: 250px;
+        height: 250px;
+      }
+      
+      .presentation {
+        font-size: 0.9rem;
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+      
+      .presentation h2 {
+        font-size: 1.2rem;
+      }
+      
+      .btn {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.4rem;
+      }
+      
+      .nav-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      
+      .image-placeholder {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .bottom-images {
+        gap: 1.5rem;
+        margin: 1rem auto 0;
+      }
+      
+      section {
+        padding: 1.5rem 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-header h1 {
+        font-size: 1.4rem;
+      }
+      
+      .photo img {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .presentation {
+        padding: 1rem;
+        font-size: 0.85rem;
+      }
+      
+      .bottom-images {
+        gap: 1rem;
+      }
+      
+      .image-placeholder {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    .bottom-images-wrapper {
+      width: 100%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .bottom-images {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Indicateur de progression -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+  
+  <!-- Menu hamburger -->
+  <div class="main-menu-toggle" id="mainMenuToggle">
+    <div class="main-hamburger"></div>
+    <div class="main-hamburger"></div>
+    <div class="main-hamburger"></div>
+  </div>
+  
+  <nav class="main-nav" id="mainNav">
+    <a href="#home" class="nav-link active">Accueil</a>
+    <a href="#about" class="nav-link">À propos</a>
+    <a href="projets.html" class="nav-link">Projets</a>
+    <a href="Contact.html" target="_blank" class="nav-link">Contact</a>
+  </nav>
+
+  <!-- Fond moderne avec gradient animé -->
+  <div class="dynamic-background"></div>
+  
+  <!-- Overlay avec effet de vagues -->
+  <div class="wave-overlay"></div>
+  
+  <!-- Effet de mouvement sur le scroll -->
+  <div class="scroll-effect" id="scrollEffect"></div>
+  
+  <!-- Particules modernisées -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Nom en haut -->
+  <div class="main-header">
+    <h1>Théo GARDERE</h1>
+  </div>
+
+  <section id="home">
+    <div class="photo">
+      <a href="" target="_blank">
+        <img src="Projets/Photo.jpg" >
+      </a>
+    </div>
+    <div class="presentation">
+      <h2>Étudiant en 1ʳᵉ année de BUT Science des données</h2>
+      <p>Passionné par les mathématiques et la statistique depuis le lycée, j'ai découvert le monde de la science des données grâce à la spécialité Maths et SES. Cette double approche m'a permis de comprendre à quel point les données peuvent être utilisées pour analyser, comprendre et agir sur le monde réel.</p>
+    </div>
+  </section>
+  
+  <section id="about">
+    <div class="presentation">
+      <h2>À propos de moi</h2>
+      <p>Aujourd'hui, je poursuis un BUT Science des données pour approfondir mes compétences en mathématiques appliquées, statistiques, programmation et visualisation. Mon objectif est de devenir un professionnel capable de transformer des données complexes en informations utiles et compréhensibles.</p>
+      <p>Je m'intéresse particulièrement à l'analyse de données, à la modélisation statistique, et aux outils de visualisation interactifs. Je suis en train d'explorer différents langages comme Python, R, SQL et des bibliothèques comme Pandas, Matplotlib ou Seaborn.</p>
+    </div>
+    
+    <!-- Boutons en dehors de la bulle -->
+    <div class="nav-buttons">
+      <a href="projets.html" class="btn">Voir mes projets</a>
+      <a href="contact.html" class="btn">Me Contacter</a>
+    </div>
+    
+    <!-- Images en bas -->
+    <div class="bottom-images-wrapper">
+      <div class="bottom-images">
+        <div class="image-placeholder">
+          <a href="https://www.but-sd.fr/" target="_blank">
+            <img src="Projets/but sd.png" alt="BUT Science des Données">
+          </a>
+        </div>
+        <div class="image-placeholder">
+          <a href="https://iutp.univ-poitiers.fr/liut-poitiers-niort-chatellerault/les-sites-de-formation/niort/" target="_blank">
+            <img src="Projets/OIP.jpg" alt="IUT Poitiers">
+          </a>
+        </div>
+        <div class="image-placeholder">
+          <a href="https://www.univ-poitiers.fr" target="_blank">
+            <img src="Projets/universite-poitiers.jpg" alt="Université de Poitiers">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    // Gestion du menu
+    const mainMenuToggle = document.getElementById('mainMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const scrollEffect = document.getElementById('scrollEffect');
+    
+    // Toggle menu
+    mainMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+    });
+    
+    // Effet de mouvement avec la souris
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      
+      scrollEffect.style.setProperty('--mouse-x', x + '%');
+      scrollEffect.style.setProperty('--mouse-y', y + '%');
+    });
+    
+    // Navigation
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        
+        if (href.includes('.html')) {
+          return;
+        }
+        
+        e.preventDefault();
+        const targetSection = document.querySelector(href);
+        
+        if (targetSection) {
+          targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+        
+        navLinks.forEach(l => {
+          if (!l.getAttribute('href').includes('.html')) {
+            l.classList.remove('active');
+          }
+        });
+        if (!href.includes('.html')) {
+          link.classList.add('active');
+        }
+        
+        mainNav.classList.remove('active');
+      });
+    });
+    
+    // Fermer menu
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !mainMenuToggle.contains(e.target)) {
+        mainNav.classList.remove('active');
+      }
+    });
+    
+    // Scroll progress et navigation active
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      
+      scrollProgress.style.width = scrollPercent + '%';
+      
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.clientHeight;
+        
+        if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href.includes('.html')) {
+          link.classList.remove('active');
+          if (href === `#${current}`) {
+            link.classList.add('active');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
