@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Compétences - Théo GARDERE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #e8f0ff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    
+    /* Fond identique */
+    .dynamic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: #0a0a0a;
+    }
+    
+    /* Particules */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, rgba(100,181,246,0.4) 0%, rgba(25,118,210,0.2) 50%, transparent 100%);
+      border-radius: 50%;
+      animation: float infinite ease-in-out;
+    }
+    
+    .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 10%; animation-duration: 20s; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; animation-duration: 25s; animation-delay: 5s; }
+    .particle:nth-child(3) { width: 3px; height: 3px; top: 40%; left: 60%; animation-duration: 30s; animation-delay: 10s; }
+    .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 20%; animation-duration: 22s; animation-delay: 15s; }
+    .particle:nth-child(5) { width: 4px; height: 4px; top: 30%; left: 90%; animation-duration: 28s; animation-delay: 8s; }
+    .particle:nth-child(6) { width: 7px; height: 7px; top: 70%; left: 40%; animation-duration: 35s; animation-delay: 12s; }
+    
+    .wave-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse 400px 200px at 50% 100%, rgba(25,118,210,0.03) 0%, transparent 70%);
+      animation: waveMove 40s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.7; }
+      25% { transform: translateY(-100px) translateX(50px) scale(1.2); opacity: 1; }
+      50% { transform: translateY(-50px) translateX(-30px) scale(0.8); opacity: 0.5; }
+      75% { transform: translateY(-150px) translateX(80px) scale(1.1); opacity: 0.9; }
+    }
+    
+    @keyframes waveMove {
+      0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+      33% { transform: rotate(1deg) scale(1.1); opacity: 0.8; }
+      66% { transform: rotate(-1deg) scale(0.9); opacity: 0.4; }
+    }
+    
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    /* Menu hamburger identique */
+    .main-menu-toggle {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      z-index: 1001;
+      width: 60px;
+      height: 60px;
+      background: rgba(13,17,23,0.9);
+      border: 2px solid rgba(100,181,246,0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      animation: fadeInDown 1s ease-out 1s forwards;
+    }
+    
+    .main-hamburger {
+      width: 28px;
+      height: 3px;
+      background: #64b5f6;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+    
+    .main-menu-toggle:hover {
+      border-color: #64b5f6;
+      background: rgba(25,118,210,0.15);
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+    }
+    
+    .main-menu-toggle:hover .main-hamburger {
+      background: #90caf9;
+    }
+    
+    /* Menu principal identique */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(13,17,23,0.95);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      transition: right 0.4s ease;
+      border-left: 1px solid rgba(100,181,246,0.3);
+    }
+    
+    .main-nav.active {
+      right: 0;
+    }
+    
+    .nav-link {
+      color: #bbdefb;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.8rem 2rem;
+      border-radius: 25px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-width: 180px;
+      text-align: center;
+    }
+    
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(100,181,246,0.1), transparent);
+      transition: left 0.5s;
+    }
+    
+    .nav-link:hover::before {
+      left: 100%;
+    }
+    
+    .nav-link:hover {
+      color: #64b5f6;
+      border-color: rgba(100,181,246,0.3);
+      background: rgba(25,118,210,0.1);
+      transform: translateY(-2px) scale(1.02);
+    }
+    
+    .nav-link.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      border-color: #64b5f6;
+      box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+    }
+    
+    /* En-tête */
+    .page-header {
+      position: relative;
+      top: 6rem;
+      left: 2rem;
+      z-index: 100;
+      opacity: 0;
+      animation: fadeInDown 1.2s ease-out 0.3s forwards;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: #f5f7fa;
+      margin: 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      margin-bottom: 0.5rem;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: #90caf9;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+    
+    /* Contenu principal */
+    .main-content {
+      margin-top: 8rem;
+      padding: 2rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.8s forwards;
+    }
+    
+    /* Parcours selector */
+    .parcours-selector {
+      max-width: 1200px;
+      margin: 0 auto 3rem auto;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .parcours-btn {
+      padding: 1rem 2rem;
+      background: rgba(13,17,23,0.6);
+      border: 2px solid rgba(100,181,246,0.3);
+      border-radius: 25px;
+      color: #bbdefb;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .parcours-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(100,181,246,0.1), transparent);
+      transition: left 0.5s;
+    }
+    
+    .parcours-btn:hover::before {
+      left: 100%;
+    }
+    
+    .parcours-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      border-color: #64b5f6;
+      background: rgba(25,118,210,0.1);
+      box-shadow: 0 8px 25px rgba(25,118,210,0.3);
+    }
+    
+    .parcours-btn.active {
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      border-color: #64b5f6;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(25,118,210,0.4);
+    }
+    
+    /* Grille de compétences */
+    .competences-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+    
+    .competence-category {
+      background: rgba(13,17,23,0.6);
+      border: 1px solid rgba(100,181,246,0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideInRight 0.6s ease-out forwards;
+    }
+    
+    .competence-category:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(100,181,246,0.4);
+      box-shadow: 0 15px 35px rgba(25,118,210,0.3);
+    }
+    
+    .category-title {
+      color: #64b5f6;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, #1976d2, #64b5f6);
+      border-radius: 1px;
+    }
+    
+    .skills-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(100,181,246,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .skill-item:hover {
+      padding-left: 0.5rem;
+      background: rgba(25,118,210,0.05);
+      border-radius: 8px;
+      border-bottom-color: rgba(100,181,246,0.2);
+    }
+    
+    .skill-name {
+      color: #bbdefb;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+    
+    .skill-level {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .skill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(100,181,246,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .skill-dot.active {
+      background: #64b5f6;
+      box-shadow: 0 0 8px rgba(100,181,246,0.5);
+    }
+    
+    /* Années */
+    .year-section {
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .year-title {
+      text-align: center;
+      font-size: 2rem;
+      color: #90caf9;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      position: relative;
+    }
+    
+    .year-title::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(100,181,246,0.3), transparent);
+      z-index: -1;
+    }
+    
+    .year-title span {
+      background: #0a0a0a;
+      padding: 0 2rem;
+    }
+    
+    /* Statistiques */
+    .stats-section {
+      margin: 4rem 0;
+      padding: 2rem;
+      background: rgba(13,17,23,0.4);
+      border-radius: 20px;
+      border: 1px solid rgba(100,181,246,0.2);
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    
+    .stat-item {
+      padding: 1.5rem;
+      border-radius: 15px;
+      background: rgba(25,118,210,0.1);
+      border: 1px solid rgba(100,181,246,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(25,118,210,0.2);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #64b5f6;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: #bbdefb;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-menu-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .main-hamburger {
+        width: 24px;
+        height: 2px;
+      }
+      
+      .main-nav {
+        width: 85%;
+      }
+      
+      .page-header {
+        top: 4rem;
+        left: 1rem;
+      }
+      
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .main-content {
+        margin-top: 6rem;
+        padding: 1rem;
+      }
+      
+      .competences-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .parcours-selector {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .parcours-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .year-title {
+        font-size: 1.5rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fond dynamique -->
+  <div class="dynamic-background"></div>
+  
+  <!-- Effet de vagues -->
+  <div class="wave-effect"></div>
+  
+  <!-- Particules flottantes -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Menu hamburger principal -->
+  <div class="main-menu-toggle" id="mainMenuToggle">
+    <div class="main-hamburger"></div>
+    <div class="main-hamburger"></div>
+    <div class="main-hamburger"></div>
+  </div>
+  
+  <nav class="main-nav" id="mainNav">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="projets.html" class="nav-link">Projets</a>
+    <a href="competence.html" class="nav-link active">Compétences</a>
+    <a href="Contact.html" target="_blank" class="nav-link">Contact</a>
+  </nav>
+
+  <!-- En-tête de page -->
+  <div class="page-header">
+    <h1>Mes Compétences</h1>
+    <p class="page-subtitle">BUT Science des Données</p>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    
+    <!-- Statistiques -->
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">8</span>
+          <span class="stat-label">Langages informatiques maîtrisés</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Années d'études</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">9</span>
+          <span class="stat-label">Projets réalisés</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Première année -->
+    <div class="year-section" data-year="1">
+      <h2 class="year-title"><span>Première Année</span></h2>
+      <div class="competences-grid">
+        
+        <div class="competence-category" data-parcours="all">
+          <h3 class="category-title">Langages de Programmation</h3>
+          <ul class="skills-list">
+            <li class="skill-item">
+              <span class="skill-name">SQL</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Python</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">R</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">VBA Excel</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">SAS</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="competence-category" data-parcours="all">
+          <h3 class="category-title">Bases de Données</h3>
+          <ul class="skills-list">
+            <li class="skill-item">
+              <span class="skill-name">MySQL</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Oracle</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Access</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="competence-category" data-parcours="all">
+          <h3 class="category-title">Visualisation & Reporting</h3>
+          <ul class="skills-list">
+            <li class="skill-item">
+              <span class="skill-name">Power BI</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Excel Avancé</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Sphinx</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="competence-category" data-parcours="all">
+          <h3 class="category-title">Statistiques</h3>
+          <ul class="skills-list">
+            <li class="skill-item">
+              <span class="skill-name">Statistique Descriptive</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Statistique Inférentielle</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+            <li class="skill-item">
+              <span class="skill-name">Enquêtes & Sondages</span>
+              <div class="skill-level">
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot active"></div>
+                <div class="skill-dot"></div>
+                <div class="skill-dot"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Menu hamburger functionality
+    const mainMenuToggle = document.getElementById('mainMenuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    mainMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainMenuToggle.contains(e.target) && !mainNav.contains(e.target)) {
+        mainNav.classList.remove('active');
+      }
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
