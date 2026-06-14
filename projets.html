@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projets — Théo GARDERE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2F3F5;--bg2:#EAEBEE;--surface:#FFFFFF;
+  --border:#DDDEE2;--text:#1A1A22;--muted:#7A7B8A;
+  --accent:#3D5AFE;--accent2:#00BFA5;--radius:6px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:1.2rem 5vw;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(242,243,245,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);text-decoration:none;letter-spacing:-.02em}
+.nav-logo .dot{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--accent)}
+
+/* ── PAGE HEADER ── */
+.page-top{padding:8rem 5vw 3.5rem;max-width:1120px;margin:0 auto;position:relative}
+.page-top::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;opacity:.4;pointer-events:none;z-index:0;
+}
+.page-top-inner{position:relative;z-index:1}
+.eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
+.eyebrow::before{content:'';width:20px;height:1.5px;background:var(--accent)}
+.page-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-.035em;line-height:1.05;color:var(--text);margin-bottom:1rem}
+.page-title .underline-accent{position:relative;display:inline-block}
+.page-title .underline-accent::after{content:'';position:absolute;left:0;bottom:-4px;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px}
+.page-sub{font-size:1rem;color:var(--muted);font-weight:300;max-width:520px}
+
+/* ── TABS ── */
+.tabs-wrap{max-width:1120px;margin:0 auto;padding:0 5vw 2.5rem}
+.tabs{display:flex;gap:.5rem;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab-btn{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:.65rem 1.4rem;border:none;background:none;cursor:pointer;
+  color:var(--muted);position:relative;transition:color .2s;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ── SECTION ── */
+.section{padding:0 5vw 6rem;max-width:1120px;margin:0 auto}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── GRID ── */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  position:relative;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.1);border-color:rgba(61,90,254,.25)}
+
+/* accent bar left */
+.card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  transform:scaleY(0);transform-origin:top;transition:transform .3s ease;z-index:1;
+}
+.card:hover::before{transform:scaleY(1)}
+
+/* ── PREVIEW ZONE (visible par défaut, caché au hover) ── */
+.card-preview{
+  height:130px;
+  background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  transition:opacity .3s ease;
+}
+.card:hover .card-preview{opacity:0;pointer-events:none}
+
+/* mini graphique SVG déco */
+.preview-deco{width:100%;height:100%;padding:1rem}
+.preview-deco svg{width:100%;height:100%}
+
+/* numéro grand en fond */
+.preview-num{
+  position:absolute;right:1rem;bottom:-.2rem;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:5rem;
+  color:var(--border);line-height:1;pointer-events:none;user-select:none;
+}
+
+/* ── CARD BODY ── */
+.card-body{padding:1.25rem 1.5rem 1.5rem}
+.card-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);font-weight:500;margin-bottom:.75rem;
+  background:rgba(61,90,254,.07);padding:.25rem .6rem;border-radius:100px;
+}
+.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.015em;color:var(--text);margin-bottom:.4rem;line-height:1.3}
+.card-desc{font-size:.8rem;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:.75rem}
+.card-read-more{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.72rem;color:var(--accent);font-weight:500;
+  cursor:pointer;border:none;background:none;padding:0;
+  font-family:'Inter',sans-serif;letter-spacing:.02em;
+  transition:gap .2s;
+  margin-bottom:.75rem;
+}
+.card-read-more:hover{gap:.5rem}
+.card-read-more svg{width:10px;height:10px;flex-shrink:0}
+.techs{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+.tech{font-size:.68rem;padding:.2rem .55rem;background:var(--bg);border-radius:3px;color:var(--muted);font-weight:500;letter-spacing:.04em}
+.btns-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn-view{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.5rem 1rem;
+  border:1.5px solid var(--border);border-radius:var(--radius);
+  color:var(--muted);font-size:.75rem;font-weight:500;
+  text-decoration:none;letter-spacing:.03em;
+  transition:border-color .2s,color .2s,background .2s,transform .2s;
+  cursor:pointer;background:transparent;font-family:'Inter',sans-serif;
+}
+.btn-view:hover{border-color:var(--accent);color:var(--accent);background:rgba(61,90,254,.04);transform:translateY(-1px)}
+.btn-view svg{width:11px;height:11px;flex-shrink:0}
+
+/* ── HOVER OVERLAY (description complète) ── */
+.card-overlay{
+  position:absolute;inset:0;
+  background:rgba(255,255,255,.97);
+  padding:1.1rem 1.25rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  z-index:2;overflow:hidden;
+}
+.card:hover .card-overlay{opacity:1;pointer-events:all}
+.overlay-badge{
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);font-weight:600;margin-bottom:.3rem;
+}
+.overlay-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.86rem;color:var(--text);margin-bottom:.35rem;line-height:1.2}
+.overlay-desc{font-size:.75rem;color:var(--muted);font-weight:300;line-height:1.5;margin-bottom:.55rem;overflow:auto}
+.overlay-techs{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.6rem}
+.overlay-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:auto}
+
+/* ── PDF MODAL ── */
+.pdf-overlay{position:fixed;inset:0;background:rgba(26,26,34,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(4px)}
+.pdf-overlay.visible{opacity:1;pointer-events:all}
+.pdf-preview{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.92);
+  width:90vw;max-width:860px;height:82vh;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,.15);
+  z-index:2000;opacity:0;pointer-events:none;
+  transition:all .35s cubic-bezier(.4,0,.2,1);overflow:hidden;
+}
+.pdf-preview.visible{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:all}
+.pdf-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg)}
+.pdf-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--text)}
+.pdf-close{background:none;border:1.5px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+.pdf-close:hover{border-color:var(--accent);color:var(--accent)}
+.pdf-body{height:calc(100% - 60px);position:relative;background:#fff}
+.pdf-iframe{width:100%;height:100%;border:none}
+.pdf-loading,.pdf-error{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--muted);font-size:.9rem}
+.pdf-error a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(61,90,254,.3)}
+
+/* ── TEXT MODAL ── */
+.txt-overlay{position:fixed;inset:0;background:rgba(26,26,34,.45);z-index:2999;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.txt-overlay.visible{opacity:1;pointer-events:all}
+.txt-modal{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.94);
+  width:90vw;max-width:560px;max-height:80vh;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,.12);
+  z-index:3000;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.txt-modal.visible{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:all}
+.txt-modal-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.4rem;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0}
+.txt-modal-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.txt-modal-close{background:none;border:1.5px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s}
+.txt-modal-close:hover{border-color:var(--accent);color:var(--accent)}
+.txt-modal-body{padding:1.4rem;overflow-y:auto;flex:1}
+.txt-modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:.75rem;line-height:1.25}
+.txt-modal-desc{font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.75;margin-bottom:1rem}
+.txt-modal-techs{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.1rem}
+.txt-modal-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.75rem;letter-spacing:.05em;border-top:1px solid var(--border)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.projects-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){
+  .projects-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">G<span class="dot">.</span>T</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="apropos.html">À propos</a></li>
+    <li><a href="competence.html">Compétences</a></li>
+    <li><a href="projets.html" class="active">Projets</a></li>
+    <li><a href="Contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-top">
+  <div class="page-top-inner reveal">
+    <div class="eyebrow">BUT Science des Données</div>
+    <h1 class="page-title">Mes<br/><span class="underline-accent">projets.</span></h1>
+    <p class="page-sub">Projets SAÉ réalisés en BUT — bases de données, régression, visualisation, reporting et analyse statistique.</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap reveal">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="but1">BUT 1</button>
+    <button class="tab-btn" data-tab="but2">BUT 2</button>
+  </div>
+</div>
+
+<!-- TEXT MODAL -->
+<div class="txt-overlay" id="txtOverlay"></div>
+<div class="txt-modal" id="txtModal">
+  <div class="txt-modal-header">
+    <span class="txt-modal-badge" id="txtBadge"></span>
+    <button class="txt-modal-close" id="txtClose">&times;</button>
+  </div>
+  <div class="txt-modal-body">
+    <div class="txt-modal-title" id="txtTitle"></div>
+    <div class="txt-modal-desc" id="txtDesc"></div>
+    <div class="txt-modal-techs" id="txtTechs"></div>
+    <div class="txt-modal-actions" id="txtActions"></div>
+  </div>
+</div>
+
+<!-- PDF MODAL -->
+<div class="pdf-overlay" id="pdfOverlay"></div>
+<div class="pdf-preview" id="pdfPreview">
+  <div class="pdf-header">
+    <span class="pdf-header-title" id="pdfTitle">Aperçu</span>
+    <button class="pdf-close" id="pdfClose">&times;</button>
+  </div>
+  <div class="pdf-body">
+    <div class="pdf-loading" id="pdfLoading">Chargement du document…</div>
+    <iframe class="pdf-iframe" id="pdfIframe" style="display:none"></iframe>
+    <div class="pdf-error" id="pdfError" style="display:none">
+      Impossible d'afficher l'aperçu.<br>
+      <a href="#" id="pdfDirectLink" target="_blank">Ouvrir le document →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ BUT 1 ═══════════════════ -->
+<div class="section">
+<div id="tab-but1" class="tab-panel active">
+<div class="projects-grid">
+
+  <!-- 1 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="30" height="60" rx="2" fill="rgba(61,90,254,.08)" stroke="rgba(61,90,254,.2)" stroke-width="1"/>
+          <rect x="50" y="35" width="30" height="45" rx="2" fill="rgba(61,90,254,.12)" stroke="rgba(61,90,254,.2)" stroke-width="1"/>
+          <rect x="90" y="10" width="30" height="70" rx="2" fill="rgba(61,90,254,.18)" stroke="rgba(61,90,254,.3)" stroke-width="1"/>
+          <rect x="130" y="50" width="30" height="30" rx="2" fill="rgba(0,191,165,.1)" stroke="rgba(0,191,165,.3)" stroke-width="1"/>
+          <line x1="10" y1="85" x2="190" y2="85" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">01</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S1</div>
+      <div class="card-title">Base de données relationnelle</div>
+      <div class="techs"><span class="tech">SQL</span><span class="tech">MySQL</span><span class="tech">MCD</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S1 — Base de données</div>
+      <div class="overlay-title">Conception & implémentation d'une BDD</div>
+      <div class="overlay-desc">Modélisation entité-relation, conception du MCD/MLD, puis implémentation et requêtes SQL avancées (jointures, agrégats, sous-requêtes) sur un cas réel.</div>
+      <div class="overlay-techs"><span class="tech">SQL</span><span class="tech">MySQL</span><span class="tech">MCD/MLD</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/SAE Conception et implémentation d'une base de données.pdf"
+           data-pdf-title="SAÉ — Conception et implémentation d'une base de données"
+           data-direct-link="Projets/BUT1/SAE Conception et implémentation d'une base de données.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir le rapport
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="10,75 45,55 80,40 115,30 150,22 185,15" stroke="rgba(61,90,254,.4)" stroke-width="2" fill="none"/>
+          <polyline points="10,75 45,65 80,60 115,52 150,48 185,42" stroke="rgba(0,191,165,.3)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          <circle cx="80" cy="40" r="3" fill="rgba(61,90,254,.5)"/>
+          <circle cx="150" cy="22" r="3" fill="rgba(61,90,254,.5)"/>
+          <line x1="10" y1="80" x2="190" y2="80" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">02</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S1</div>
+      <div class="card-title">Régression sur données réelles</div>
+      <div class="techs"><span class="tech">R</span><span class="tech">Régression</span><span class="tech">Statistiques</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S1 — Modélisation</div>
+      <div class="overlay-title">Régression linéaire sur données réelles</div>
+      <div class="overlay-desc">Modélisation linéaire simple et multiple, validation des hypothèses (résidus, normalité, homoscédasticité), sélection de variables et interprétation des coefficients.</div>
+      <div class="overlay-techs"><span class="tech">R</span><span class="tech">Régression</span><span class="tech">Tests stat.</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/SAE – Régression sur des données réelles.pdf"
+           data-pdf-title="SAÉ — Régression sur des données réelles"
+           data-direct-link="Projets/BUT1/SAE – Régression sur des données réelles.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir le rapport
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="45" r="28" fill="rgba(61,90,254,.07)" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <circle cx="60" cy="45" r="16" fill="rgba(61,90,254,.1)" stroke="rgba(61,90,254,.25)" stroke-width="1.5"/>
+          <circle cx="60" cy="45" r="6" fill="rgba(61,90,254,.3)"/>
+          <line x1="105" y1="20" x2="180" y2="20" stroke="var(--border)" stroke-width="1"/>
+          <line x1="105" y1="35" x2="165" y2="35" stroke="var(--border)" stroke-width="1"/>
+          <line x1="105" y1="50" x2="170" y2="50" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <line x1="105" y1="65" x2="155" y2="65" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">03</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S1</div>
+      <div class="card-title">Visualisation des données avec R</div>
+      <div class="techs"><span class="tech">R</span><span class="tech">ggplot2</span><span class="tech">EDA</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S1 — Dataviz</div>
+      <div class="overlay-title">Exploration & visualisation avec R</div>
+      <div class="overlay-desc">Analyse exploratoire complète : distributions, corrélations, boxplots, histogrammes et cartes avec ggplot2. Rapport Rmarkdown livré au client.</div>
+      <div class="overlay-techs"><span class="tech">R</span><span class="tech">ggplot2</span><span class="tech">Rmarkdown</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/Visualisation des données avec R - Projet.pdf"
+           data-pdf-title="SAÉ — Visualisation des données avec R"
+           data-direct-link="Projets/BUT1/Visualisation des données avec R - Projet.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir le rapport
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="15" width="170" height="60" rx="4" fill="rgba(0,191,165,.05)" stroke="rgba(0,191,165,.2)" stroke-width="1"/>
+          <rect x="25" y="25" width="55" height="8" rx="2" fill="rgba(0,191,165,.2)"/>
+          <rect x="25" y="40" width="40" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <rect x="25" y="53" width="50" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <rect x="25" y="66" width="35" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <rect x="120" y="25" width="50" height="40" rx="3" fill="rgba(0,191,165,.1)" stroke="rgba(0,191,165,.25)" stroke-width="1"/>
+          <polyline points="125,55 135,42 145,48 155,35 165,38" stroke="rgba(0,191,165,.6)" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="preview-num">04</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S1</div>
+      <div class="card-title">Reporting automatisé — VBA</div>
+      <div class="techs"><span class="tech">VBA</span><span class="tech">Excel</span><span class="tech">Reporting</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S1 — Automatisation</div>
+      <div class="overlay-title">Outil de reporting Excel / VBA</div>
+      <div class="overlay-desc">Développement d'un classeur Excel entièrement automatisé en VBA pour la gestion et le suivi des notes étudiantes — saisie, calculs, exports et tableaux de bord.</div>
+      <div class="overlay-techs"><span class="tech">VBA</span><span class="tech">Excel</span><span class="tech">Macros</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view" href="Projets/BUT1/SAE Excel VBA.xlsm" download="SAE Excel VBA.xlsm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Télécharger
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="85" height="70" rx="3" fill="rgba(61,90,254,.06)" stroke="rgba(61,90,254,.15)" stroke-width="1"/>
+          <rect x="20" y="20" width="65" height="12" rx="2" fill="rgba(61,90,254,.12)"/>
+          <rect x="20" y="38" width="45" height="8" rx="2" fill="rgba(61,90,254,.08)"/>
+          <rect x="20" y="52" width="55" height="8" rx="2" fill="rgba(61,90,254,.08)"/>
+          <rect x="20" y="66" width="35" height="6" rx="2" fill="rgba(0,191,165,.15)"/>
+          <rect x="108" y="10" width="82" height="35" rx="3" fill="rgba(0,191,165,.08)" stroke="rgba(0,191,165,.2)" stroke-width="1"/>
+          <rect x="108" y="53" width="38" height="27" rx="3" fill="rgba(61,90,254,.08)" stroke="rgba(61,90,254,.15)" stroke-width="1"/>
+          <rect x="152" y="53" width="38" height="27" rx="3" fill="rgba(61,90,254,.08)" stroke="rgba(61,90,254,.15)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">05</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S2</div>
+      <div class="card-title">Dashboard Power BI</div>
+      <div class="techs"><span class="tech">Power BI</span><span class="tech">DAX</span><span class="tech">Dataviz</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S2 — Business Intelligence</div>
+      <div class="overlay-title">Tableau de bord Power BI</div>
+      <div class="overlay-desc">Conception d'un dashboard interactif : connexion aux données, modélisation, mesures DAX, filtres croisés et mise en page orientée décision.</div>
+      <div class="overlay-techs"><span class="tech">Power BI</span><span class="tech">DAX</span><span class="tech">Power Query</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/Power Bi.pdf"
+           data-pdf-title="SAÉ — Dashboard Power BI"
+           data-direct-link="Projets/BUT1/Power Bi.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="15,70 45,50 75,35 105,42 135,25 165,30 185,20" stroke="rgba(61,90,254,.35)" stroke-width="2" fill="none"/>
+          <polyline points="15,70 45,60 75,55 105,58 135,50 165,52 185,45" stroke="rgba(0,191,165,.3)" stroke-width="1.5" stroke-dasharray="5 3" fill="none"/>
+          <circle cx="135" cy="25" r="4" fill="rgba(61,90,254,.5)"/>
+          <line x1="135" y1="10" x2="135" y2="80" stroke="rgba(61,90,254,.1)" stroke-width="1" stroke-dasharray="3 2"/>
+          <line x1="15" y1="75" x2="185" y2="75" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">06</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S2</div>
+      <div class="card-title">KPIs Fleury-Michon</div>
+      <div class="techs"><span class="tech">KPI</span><span class="tech">Analyse</span><span class="tech">Business</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S2 — Performance</div>
+      <div class="overlay-title">Indicateurs de performance commerciale</div>
+      <div class="overlay-desc">Construction et présentation d'indicateurs clés de performance pour Fleury-Michon — croissance, parts de marché, analyse concurrentielle et recommandations.</div>
+      <div class="overlay-techs"><span class="tech">KPI</span><span class="tech">Analyse</span><span class="tech">Excel</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/📊 1. PERFORMANCE COMMERCIALE ET CROISSANCE.pdf"
+           data-pdf-title="SAÉ — KPIs Fleury-Michon"
+           data-direct-link="Projets/BUT1/📊 1. PERFORMANCE COMMERCIALE ET CROISSANCE.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="70" cy="45" rx="50" ry="30" fill="rgba(61,90,254,.06)" stroke="rgba(61,90,254,.15)" stroke-width="1.5"/>
+          <ellipse cx="70" cy="45" rx="30" ry="18" fill="rgba(61,90,254,.08)" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <ellipse cx="70" cy="45" rx="12" ry="7" fill="rgba(61,90,254,.2)"/>
+          <line x1="130" y1="20" x2="185" y2="20" stroke="var(--border)" stroke-width="1"/>
+          <line x1="130" y1="35" x2="175" y2="35" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <line x1="130" y1="50" x2="180" y2="50" stroke="var(--border)" stroke-width="1"/>
+          <line x1="130" y1="65" x2="160" y2="65" stroke="rgba(0,191,165,.25)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="preview-num">07</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S2</div>
+      <div class="card-title">Échantillonnage & Estimation</div>
+      <div class="techs"><span class="tech">Stat. inf.</span><span class="tech">R</span><span class="tech">Python</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S2 — Statistique inférentielle</div>
+      <div class="overlay-title">Échantillonnage & Estimation</div>
+      <div class="overlay-desc">Méthodes d'échantillonnage, estimation ponctuelle et par intervalle de confiance, tests d'hypothèses appliqués à une population réelle.</div>
+      <div class="overlay-techs"><span class="tech">Stat. inf.</span><span class="tech">R</span><span class="tech">Python</span><span class="tech">IC</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/Science des Donnees- S2- Stat. Inferentielle SAE- Echantillonnage et Estimation.pdf"
+           data-pdf-title="SAÉ — Échantillonnage et Estimation"
+           data-direct-link="Projets/BUT1/Science des Donnees- S2- Stat. Inferentielle SAE- Echantillonnage et Estimation.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="30" width="180" height="45" rx="3" fill="rgba(61,90,254,.04)" stroke="rgba(61,90,254,.1)" stroke-width="1"/>
+          <rect x="20" y="20" width="25" height="55" rx="2" fill="rgba(0,191,165,.15)" stroke="rgba(0,191,165,.3)" stroke-width="1"/>
+          <rect x="55" y="35" width="25" height="40" rx="2" fill="rgba(61,90,254,.15)" stroke="rgba(61,90,254,.25)" stroke-width="1"/>
+          <rect x="90" y="25" width="25" height="50" rx="2" fill="rgba(0,191,165,.2)" stroke="rgba(0,191,165,.35)" stroke-width="1"/>
+          <rect x="125" y="40" width="25" height="35" rx="2" fill="rgba(61,90,254,.1)" stroke="rgba(61,90,254,.2)" stroke-width="1"/>
+          <rect x="160" y="30" width="25" height="45" rx="2" fill="rgba(0,191,165,.12)" stroke="rgba(0,191,165,.25)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">08</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S2</div>
+      <div class="card-title">Analyse AcVC & Prévention</div>
+      <div class="techs"><span class="tech">Python</span><span class="tech">Power BI</span><span class="tech">Santé</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S2 — Analyse santé publique</div>
+      <div class="overlay-title">Accidents de la Vie Courante & Prévention</div>
+      <div class="overlay-desc">Analyse statistique des données AcVC : profil des victimes, circonstances, typologies. Reporting Power BI et recommandations de prévention des risques.</div>
+      <div class="overlay-techs"><span class="tech">Python</span><span class="tech">Power BI</span><span class="tech">Pandas</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/SAé 2semaines.pdf"
+           data-pdf-title="SAÉ — Analyse AcVC & Prévention"
+           data-direct-link="Projets/BUT1/SAé 2semaines.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Rapport
+        </a>
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/powerBI.pdf"
+           data-pdf-title="Annexes — AcVC Power BI"
+           data-direct-link="Projets/BUT1/powerBI.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Annexes
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 75 Q50 20 100 45 Q150 70 185 25" stroke="rgba(61,90,254,.35)" stroke-width="2" fill="none"/>
+          <path d="M15 75 Q50 20 100 45 Q150 70 185 25 L185 80 L15 80 Z" fill="rgba(61,90,254,.04)"/>
+          <circle cx="100" cy="45" r="4" fill="rgba(61,90,254,.5)"/>
+          <line x1="15" y1="80" x2="185" y2="80" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">09</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">SAÉ · S1</div>
+      <div class="card-title">Étude de marché</div>
+      <div class="techs"><span class="tech">Économie</span><span class="tech">Analyse</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · S1 — Économie</div>
+      <div class="overlay-title">Étude de marché & Analyse concurrentielle</div>
+      <div class="overlay-desc">Analyse du marché, segmentation, étude de l'offre et de la demande, positionnement concurrentiel et recommandations stratégiques.</div>
+      <div class="overlay-techs"><span class="tech">Économie</span><span class="tech">Analyse</span><span class="tech">Excel</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT1/Saé Economie.pdf"
+           data-pdf-title="SAÉ — Étude de marché"
+           data-direct-link="Projets/BUT1/Saé Economie.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /projects-grid -->
+</div><!-- /tab-but1 -->
+
+<!-- ═══════════════════ BUT 2 ═══════════════════ -->
+<div id="tab-but2" class="tab-panel">
+<div class="projects-grid">
+
+  <!-- 1 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="45" r="28" fill="rgba(61,90,254,.07)" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <circle cx="60" cy="45" r="16" fill="rgba(61,90,254,.1)" stroke="rgba(61,90,254,.25)" stroke-width="1.5"/>
+          <circle cx="60" cy="45" r="6" fill="rgba(61,90,254,.3)"/>
+          <line x1="105" y1="20" x2="180" y2="20" stroke="var(--border)" stroke-width="1"/>
+          <line x1="105" y1="35" x2="165" y2="35" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <line x1="105" y1="50" x2="170" y2="50" stroke="var(--border)" stroke-width="1"/>
+          <line x1="105" y1="65" x2="155" y2="65" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">01</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2 — EMS</div>
+      <div class="card-title">Enquête EMS</div>
+      <div class="techs"><span class="tech">Enquête</span><span class="tech">Questionnaire</span><span class="tech">Excel</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Enquête & Sondage</div>
+      <div class="overlay-title">Enquête EMS</div>
+      <div class="overlay-desc">Conception et mise en œuvre complète d'une enquête par questionnaire : définition de la problématique, élaboration du questionnaire, collecte des données, traitement statistique et interprétation des résultats. Application des méthodes EMS sur un terrain réel.</div>
+      <div class="overlay-techs"><span class="tech">Enquête</span><span class="tech">Questionnaire</span><span class="tech">Excel</span><span class="tech">Statistiques</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/Enquete Ems.pdf"
+           data-pdf-title="SAÉ — Enquête EMS"
+           data-direct-link="Projets/BUT2/Enquete Ems.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="15" width="170" height="60" rx="4" fill="rgba(0,191,165,.05)" stroke="rgba(0,191,165,.2)" stroke-width="1"/>
+          <rect x="25" y="25" width="55" height="8" rx="2" fill="rgba(0,191,165,.2)"/>
+          <rect x="25" y="40" width="40" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <rect x="25" y="53" width="50" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <rect x="25" y="66" width="35" height="6" rx="2" fill="rgba(61,90,254,.1)"/>
+          <path d="M130 55 L150 30 L170 55 Z" fill="rgba(0,191,165,.15)" stroke="rgba(0,191,165,.4)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="preview-num">02</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2</div>
+      <div class="card-title">Guide de conformité</div>
+      <div class="techs"><span class="tech">RGPD</span><span class="tech">Conformité</span><span class="tech">Données</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Réglementation</div>
+      <div class="overlay-title">Guide de conformité</div>
+      <div class="overlay-desc">Élaboration d'un guide de conformité réglementaire autour de la gestion et du traitement des données personnelles. Analyse des obligations RGPD, identification des risques, et rédaction de recommandations pratiques à destination des organisations.</div>
+      <div class="overlay-techs"><span class="tech">RGPD</span><span class="tech">Conformité</span><span class="tech">Données personnelles</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/GUIDE DE CONFORMITÉ.pdf"
+           data-pdf-title="SAÉ — Guide de conformité"
+           data-direct-link="Projets/BUT2/GUIDE DE CONFORMITÉ.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="55" width="20" height="25" rx="2" fill="rgba(61,90,254,.15)" stroke="rgba(61,90,254,.3)" stroke-width="1"/>
+          <rect x="40" y="40" width="20" height="40" rx="2" fill="rgba(61,90,254,.2)" stroke="rgba(61,90,254,.3)" stroke-width="1"/>
+          <rect x="70" y="25" width="20" height="55" rx="2" fill="rgba(61,90,254,.28)" stroke="rgba(61,90,254,.4)" stroke-width="1"/>
+          <rect x="100" y="35" width="20" height="45" rx="2" fill="rgba(0,191,165,.2)" stroke="rgba(0,191,165,.35)" stroke-width="1"/>
+          <rect x="130" y="20" width="20" height="60" rx="2" fill="rgba(0,191,165,.28)" stroke="rgba(0,191,165,.4)" stroke-width="1"/>
+          <rect x="160" y="45" width="20" height="35" rx="2" fill="rgba(61,90,254,.12)" stroke="rgba(61,90,254,.2)" stroke-width="1"/>
+          <line x1="10" y1="82" x2="190" y2="82" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">03</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2</div>
+      <div class="card-title">Projet besoin d'un territoire</div>
+      <div class="techs"><span class="tech">Analyse</span><span class="tech">Territoire</span><span class="tech">Python</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Analyse territoriale</div>
+      <div class="overlay-title">Projet besoin d'un territoire</div>
+      <div class="overlay-desc">Analyse des besoins d'un territoire à partir de données socio-économiques et démographiques. Identification des dynamiques locales, cartographie des indicateurs clés et formulation de recommandations pour accompagner les décisions des acteurs territoriaux.</div>
+      <div class="overlay-techs"><span class="tech">Analyse</span><span class="tech">Territoire</span><span class="tech">Python</span><span class="tech">Dataviz</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/Projet besoin d'un territoire.pdf"
+           data-pdf-title="SAÉ — Projet besoin d'un territoire"
+           data-direct-link="Projets/BUT2/Projet besoin d'un territoire.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="10,75 45,55 80,40 115,30 150,22 185,15" stroke="rgba(61,90,254,.4)" stroke-width="2" fill="none"/>
+          <polyline points="10,75 45,65 80,60 115,52 150,48 185,42" stroke="rgba(0,191,165,.3)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          <circle cx="80" cy="40" r="3" fill="rgba(61,90,254,.5)"/>
+          <circle cx="150" cy="22" r="3" fill="rgba(61,90,254,.5)"/>
+          <line x1="10" y1="80" x2="190" y2="80" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">04</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2 — EMS</div>
+      <div class="card-title">Prédiction d'une variable</div>
+      <div class="techs"><span class="tech">Régression</span><span class="tech">ML</span><span class="tech">Python</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Modélisation prédictive</div>
+      <div class="overlay-title">Prédiction d'une variable</div>
+      <div class="overlay-desc">Construction d'un modèle prédictif pour estimer une variable cible à partir de données réelles. Sélection et comparaison de modèles (régression, arbres, forêts aléatoires), validation croisée, optimisation des hyperparamètres et interprétation des résultats.</div>
+      <div class="overlay-techs"><span class="tech">Régression</span><span class="tech">Machine Learning</span><span class="tech">Python</span><span class="tech">Scikit-learn</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/SAE — Prédiction d'une Variable.pdf"
+           data-pdf-title="SAÉ — Prédiction d'une Variable"
+           data-direct-link="Projets/BUT2/SAE — Prédiction d'une Variable.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="15" width="50" height="50" rx="3" fill="rgba(61,90,254,.06)" stroke="rgba(61,90,254,.2)" stroke-width="1.5"/>
+          <rect x="30" y="25" width="30" height="5" rx="1" fill="rgba(61,90,254,.2)"/>
+          <rect x="30" y="36" width="20" height="5" rx="1" fill="rgba(61,90,254,.15)"/>
+          <rect x="30" y="47" width="25" height="5" rx="1" fill="rgba(61,90,254,.15)"/>
+          <rect x="100" y="15" width="50" height="50" rx="3" fill="rgba(0,191,165,.06)" stroke="rgba(0,191,165,.2)" stroke-width="1.5"/>
+          <rect x="110" y="25" width="30" height="5" rx="1" fill="rgba(0,191,165,.2)"/>
+          <rect x="110" y="36" width="20" height="5" rx="1" fill="rgba(0,191,165,.15)"/>
+          <rect x="110" y="47" width="25" height="5" rx="1" fill="rgba(0,191,165,.15)"/>
+          <line x1="70" y1="40" x2="100" y2="40" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3 2"/>
+        </svg>
+      </div>
+      <div class="preview-num">05</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2 — EMS</div>
+      <div class="card-title">Plans d'expériences</div>
+      <div class="techs"><span class="tech">DOE</span><span class="tech">R</span><span class="tech">Statistiques</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Plans d'expériences</div>
+      <div class="overlay-title">Plans d'expériences</div>
+      <div class="overlay-desc">Mise en œuvre de plans d'expériences (DOE) pour analyser l'effet de plusieurs facteurs sur une réponse. Conception du plan, collecte structurée des données, analyse de variance (ANOVA), interprétation des effets principaux et interactions entre facteurs.</div>
+      <div class="overlay-techs"><span class="tech">DOE</span><span class="tech">ANOVA</span><span class="tech">R</span><span class="tech">Statistiques</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/SAé Plans d'experiences.pdf"
+           data-pdf-title="SAÉ — Plans d'expériences"
+           data-direct-link="Projets/BUT2/SAé Plans d'experiences.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card reveal">
+    <div class="card-preview">
+      <div class="preview-deco">
+        <svg viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="10,60 35,50 60,55 85,35 110,45 135,25 160,30 185,20" stroke="rgba(61,90,254,.4)" stroke-width="2" fill="none"/>
+          <polyline points="10,60 35,58 60,62 85,52 110,58 135,48 160,50 185,45" stroke="rgba(0,191,165,.25)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          <circle cx="85" cy="35" r="3" fill="rgba(61,90,254,.5)"/>
+          <circle cx="135" cy="25" r="3" fill="rgba(61,90,254,.5)"/>
+          <line x1="10" y1="75" x2="190" y2="75" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="preview-num">06</div>
+    </div>
+    <div class="card-body">
+      <div class="card-badge">⬟ SAÉ · BUT2 — EMS</div>
+      <div class="card-title">Séries temporelles</div>
+      <div class="techs"><span class="tech">Time Series</span><span class="tech">R</span><span class="tech">Prévision</span></div>
+    </div>
+    <div class="card-overlay">
+      <div class="overlay-badge">SAÉ · BUT2 — Analyse temporelle</div>
+      <div class="overlay-title">Séries temporelles</div>
+      <div class="overlay-desc">Analyse et modélisation de données chronologiques : décomposition de la série (tendance, saisonnalité, résidus), identification du modèle (ARIMA, lissage exponentiel), prévision sur horizon futur et validation des performances du modèle retenu.</div>
+      <div class="overlay-techs"><span class="tech">ARIMA</span><span class="tech">R</span><span class="tech">Prévision</span><span class="tech">Time Series</span></div>
+      <div class="overlay-actions">
+        <a class="btn-view pdf-link"
+           href="Projets/BUT2/SAE Séries Temporelles.pdf"
+           data-pdf-title="SAÉ — Séries Temporelles"
+           data-direct-link="Projets/BUT2/SAE Séries Temporelles.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Voir
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div><!-- /section -->
+
+<footer>&copy; 2026 Théo GARDERE — BUT Science des Données · IUT de Niort</footer>
+
+<script>
+/* ── TABS ── */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── PDF MODAL ── */
+const pdfOverlay = document.getElementById('pdfOverlay');
+const pdfPreview = document.getElementById('pdfPreview');
+const pdfClose   = document.getElementById('pdfClose');
+const pdfTitleEl = document.getElementById('pdfTitle');
+const pdfIframe  = document.getElementById('pdfIframe');
+const pdfLoading = document.getElementById('pdfLoading');
+const pdfError   = document.getElementById('pdfError');
+const pdfDirect  = document.getElementById('pdfDirectLink');
+
+function openPdf(url, title, direct) {
+  pdfTitleEl.textContent = title;
+  pdfDirect.href = direct;
+  pdfLoading.style.display = 'block';
+  pdfIframe.style.display = 'none';
+  pdfError.style.display = 'none';
+  pdfOverlay.classList.add('visible');
+  pdfPreview.classList.add('visible');
+  pdfIframe.onload = () => { pdfLoading.style.display='none'; pdfIframe.style.display='block'; };
+  pdfIframe.onerror = () => { pdfLoading.style.display='none'; pdfError.style.display='block'; };
+  pdfIframe.src = url;
+  setTimeout(() => {
+    if(pdfLoading.style.display !== 'none') { pdfLoading.style.display='none'; pdfError.style.display='block'; }
+  }, 10000);
+}
+function closePdf() {
+  pdfOverlay.classList.remove('visible');
+  pdfPreview.classList.remove('visible');
+  pdfIframe.src = '';
+}
+document.querySelectorAll('.pdf-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    openPdf(link.href, link.getAttribute('data-pdf-title'), link.getAttribute('data-direct-link'));
+  });
+});
+pdfClose.addEventListener('click', closePdf);
+pdfOverlay.addEventListener('click', closePdf);
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closePdf(); closeTxt(); } });
+
+/* ── TEXT MODAL ── */
+const txtOverlay = document.getElementById('txtOverlay');
+const txtModal   = document.getElementById('txtModal');
+const txtClose   = document.getElementById('txtClose');
+
+function openTxt(card) {
+  const ov = card.querySelector('.card-overlay');
+  document.getElementById('txtBadge').textContent = ov.querySelector('.overlay-badge').textContent;
+  document.getElementById('txtTitle').textContent  = ov.querySelector('.overlay-title').textContent;
+  document.getElementById('txtDesc').textContent   = ov.querySelector('.overlay-desc').textContent;
+
+  const tc = document.getElementById('txtTechs');
+  tc.innerHTML = '';
+  ov.querySelectorAll('.tech').forEach(t => {
+    const s = document.createElement('span'); s.className='tech'; s.textContent=t.textContent; tc.appendChild(s);
+  });
+
+  const ta = document.getElementById('txtActions');
+  const src = ov.querySelector('.overlay-actions');
+  ta.innerHTML = src ? src.innerHTML : '';
+  ta.querySelectorAll('.pdf-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault(); closeTxt();
+      openPdf(link.href, link.getAttribute('data-pdf-title'), link.getAttribute('data-direct-link'));
+    });
+  });
+
+  txtOverlay.classList.add('visible');
+  txtModal.classList.add('visible');
+}
+function closeTxt() {
+  txtOverlay.classList.remove('visible');
+  txtModal.classList.remove('visible');
+}
+txtClose.addEventListener('click', closeTxt);
+txtOverlay.addEventListener('click', closeTxt);
+
+/* ── INJECT TEASER INTO CARDS ── */
+document.querySelectorAll('.card').forEach(card => {
+  const body = card.querySelector('.card-body');
+  const title = body.querySelector('.card-title');
+  const overlay = card.querySelector('.card-overlay');
+  if (!overlay) return;
+
+  const fullDesc = overlay.querySelector('.overlay-desc').textContent.trim();
+  const teaser = fullDesc.length > 65 ? fullDesc.slice(0, 62).trimEnd() + '…' : fullDesc;
+
+  const descEl = document.createElement('p');
+  descEl.className = 'card-desc';
+  descEl.textContent = teaser;
+
+  title.after(descEl);
+});
+
+
+</script>
+</body>
+</html>

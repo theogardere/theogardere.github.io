@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>À propos — Théo GARDERE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2F3F5;--bg2:#EAEBEE;--surface:#FFFFFF;
+  --border:#DDDEE2;--text:#1A1A22;--muted:#7A7B8A;
+  --accent:#3D5AFE;--accent2:#00BFA5;--radius:6px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:1.2rem 5vw;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(242,243,245,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);text-decoration:none;letter-spacing:-.02em}
+.nav-logo .dot{color:var(--accent)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--accent)}
+
+/* ── PAGE HEADER ── */
+.page-top{padding:8rem 5vw 3.5rem;max-width:1120px;margin:0 auto;position:relative}
+.page-top::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;opacity:.4;pointer-events:none;z-index:0;
+}
+.page-top-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:center}
+.eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
+.eyebrow::before{content:'';width:20px;height:1.5px;background:var(--accent)}
+.page-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-.035em;line-height:1.05;color:var(--text);margin-bottom:1rem}
+.page-title .underline-accent{position:relative;display:inline-block}
+.page-title .underline-accent::after{content:'';position:absolute;left:0;bottom:-4px;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px}
+.page-sub{font-size:1rem;color:var(--muted);font-weight:300;max-width:480px}
+
+.hero-avatar{
+  width:260px;height:260px;border-radius:50%;
+  border:3px solid var(--border);background:var(--bg2);
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--accent);
+  flex-shrink:0;
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
+
+/* ── SECTION ── */
+.section{padding:2.5rem 5vw 2rem;max-width:1120px;margin:0 auto}
+
+/* ── BILAN CARD ── */
+.bilan-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:2.5rem;
+  position:relative;overflow:hidden;
+  margin-bottom:1.25rem;
+}
+.bilan-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+}
+.bilan-label{
+  font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;
+}
+.bilan-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.bilan-text{font-size:.95rem;color:var(--muted);font-weight:300;line-height:1.8}
+.bilan-text p{margin-bottom:.85rem}
+.bilan-text p:last-child{margin-bottom:0}
+.bilan-text strong{color:var(--text);font-weight:500}
+
+/* ── GRID 2 ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+
+/* ── HOBBIES ── */
+.hobby-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.75rem;
+  position:relative;overflow:hidden;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.hobby-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  transform:scaleY(0);transform-origin:top;transition:transform .3s;
+}
+.hobby-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.08);border-color:rgba(61,90,254,.2)}
+.hobby-card:hover::before{transform:scaleY(1)}
+.hobby-num{font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:.5rem}
+.hobby-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.6rem}
+.hobby-desc{font-size:.85rem;color:var(--muted);font-weight:300;line-height:1.65}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.75rem;letter-spacing:.05em;border-top:1px solid var(--border);margin-top:4rem}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .page-top-inner{grid-template-columns:1fr}
+  .hero-avatar{display:none}
+  .grid-2{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">G<span class="dot">.</span>T</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="apropos.html" class="active">À propos</a></li>
+    <li><a href="competence.html">Compétences</a></li>
+    <li><a href="projets.html">Projets</a></li>
+    <li><a href="Contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-top">
+  <div class="page-top-inner reveal">
+    <div>
+      <div class="eyebrow">BUT Science des Données — EMS</div>
+      <h1 class="page-title">À propos<br/>de <span class="underline-accent">moi.</span></h1>
+      <p class="page-sub">Mon parcours, mon bilan sur ces deux années de BUT, et ce qui me passionne en dehors des données.</p>
+    </div>
+    <div class="hero-avatar">
+      <img src="Photo.jpg" alt="Théo GARDERE">
+    </div>
+  </div>
+</div>
+
+<!-- BILAN SCOLAIRE -->
+<div class="section">
+  <div class="bilan-card reveal">
+    <div class="bilan-label">Bilan de première année</div>
+    <div class="bilan-text">
+      <p>Pour cette première année, je garde un bilan <strong>très positif</strong>, tant sur le plan humain que scolaire. J'ai eu la chance de faire de belles rencontres, que ce soit avec les professeurs, toujours disponibles et à l'écoute, ou avec les autres étudiants. Je me suis rapidement intégré et j'ai tissé des liens forts avec plusieurs camarades, ce qui a grandement contribué à mon épanouissement personnel.</p>
+      <p>Sur le plan des cours, le début n'a pas été facile, surtout en programmation, mais j'ai réussi à <strong>m'adapter petit à petit</strong>. J'ai particulièrement apprécié la découverte de la statistique pure — j'aime l'aspect mathématique de cette discipline, la rigueur qu'elle demande et les applications concrètes qu'elle permet. C'est un domaine dans lequel je me sens à l'aise et que je trouve stimulant.</p>
+      <p>C'est d'ailleurs ce qui me pousse à m'orienter vers le <strong>parcours EMS</strong> pour la suite de mes études, afin de continuer à approfondir ces connaissances qui me passionnent. Mon objectif est de devenir un professionnel capable de transformer des données complexes en informations utiles et compréhensibles.</p>
+    </div>
+  </div>
+
+  <div class="bilan-card reveal">
+    <div class="bilan-label">Deuxième année — EMS</div>
+    <div class="bilan-text">
+      <p>Le choix du parcours <strong>EMS (Enquêtes, Modélisation, Statistique)</strong> s'est très vite confirmé comme une évidence. Dès le début de cette deuxième année, j'ai su que j'avais fait le bon choix : les cours d'analyse multivariée, de modélisation statistique avancée et de méthodes d'enquête m'ont vraiment passionné. J'aime la profondeur de ce parcours, la façon dont il pousse à comprendre les données sous toutes leurs dimensions.</p>
+      <p>Les méthodes comme l'<strong>ACP, l'AFC</strong> ou la <strong>régression logistique</strong> m'ont ouvert des perspectives nouvelles sur la façon d'extraire du sens à partir de données complexes. C'est exactement le type de travail que je veux faire professionnellement.</p>
+      <p>J'ai également hâte de commencer mon stage — c'est une étape que j'attends avec beaucoup d'impatience. Pouvoir enfin appliquer tout ce que j'ai appris sur un vrai terrain, contribuer à des projets concrets, me confronter aux exigences du monde professionnel… c'est une perspective qui me motive énormément et qui donne encore plus de sens à tout le travail fourni ces deux années.</p>
+    </div>
+  </div>
+
+  <div class="bilan-card reveal">
+    <div class="bilan-label">Centres d'intérêt & passions</div>
+    <div class="bilan-text">
+      <p>Je m'intéresse particulièrement à l'analyse de données, à la modélisation statistique, et aux outils de visualisation interactifs. Ce qui me fascine, c'est de comprendre ce que les chiffres veulent vraiment dire — et ce qu'on peut en faire : prédire des tendances, anticiper des comportements, ou révéler des patterns cachés derrière des données brutes.</p>
+      <p>Je suis passionné par la <strong>pêche</strong>, une activité qui me permet non seulement de me détendre, mais aussi de profiter pleinement de la nature. J'apprécie particulièrement les balades en bord de rivière ou de lac, le calme environnant, le chant des oiseaux, et ce sentiment de liberté qu'offre le grand air. Marcher, prendre le temps d'observer les paysages, m'aide à me recentrer, à trouver une certaine sérénité. Cela me donne aussi l'occasion de croiser d'autres passionnés, d'échanger quelques mots, voire de nouer des liens autour d'une passion commune.</p>
+      <p>En parallèle, je pratique aussi la <strong>natation</strong>. Le fait de nager me procure un vrai moment d'évasion : lorsque je suis dans l'eau, j'oublie les tracas du quotidien et notamment le stress des cours. C'est un sport complet qui me fait du bien autant physiquement que mentalement.</p>
+      <p>Enfin, je partage régulièrement des moments forts avec ma famille en allant voir les matchs de l'<strong>Union Bordeaux Bègles (UBB)</strong>. J'adore cette ambiance conviviale et chaleureuse que seul le rugby peut offrir. Être tous ensemble dans les tribunes, soutenir notre équipe, vibrer à chaque action… c'est une expérience unique. J'apprécie énormément ce côté familial et fédérateur du rugby, et bien sûr, les victoires de l'UBB rendent ces moments encore plus intenses et inoubliables !</p>
+    </div>
+  </div>
+</div>
+
+<footer>&copy; 2026 Théo GARDERE — BUT Science des Données · IUT de Niort</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
